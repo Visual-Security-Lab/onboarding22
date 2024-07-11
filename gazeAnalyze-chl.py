@@ -7,7 +7,7 @@ def load_data(files):
     gaze_x = []
     gaze_y = []
 
-    for file in files:4
+    for file in files:
         with open(file, 'r') as f:
             data = json.load(f)
             for key, value in data.items():
@@ -16,13 +16,31 @@ def load_data(files):
     
     return gaze_x, gaze_y
 
-fig, axs = plt.subplots(3, 5, figsize=(15, 15))  # 3x5 그리드의 서브플롯
+def find_global_range(files):
+    global_min_x, global_max_x = float('inf'), float('-inf')
+    global_min_y, global_max_y = float('inf'), float('-inf')
+    
+    for file in files:
+        if not os.path.exists(file):
+            continue
+        
+        gaze_x, gaze_y = load_data([file])
+        global_min_x = min(global_min_x, min(gaze_x))
+        global_max_x = max(global_max_x, max(gaze_x))
+        global_min_y = min(global_min_y, min(gaze_y))
+        global_max_y = max(global_max_y, max(gaze_y))
+        
+    return global_min_x, global_max_x, global_min_y, global_max_y
+
+files = [f'{i:02d}.json' for i in range(15)]
+
+global_min_x, global_max_x, global_min_y, global_max_y = find_global_range(files)
+
+fig, axs = plt.subplots(3, 5, figsize=(15, 15)) 
 fig.suptitle('Visualization for Each Frame')
 
-files = [f'{i:02d}.json' for i in range(15)]  
-
-i = 0  # 인덱스 초기화
-for file in files:  # 한 figure에 파일 00~14까지 색상 다르게 해서 축 올림
+i = 0  
+for file in files:  
     if not os.path.exists(file):
         print(f"{file} 불러오기 오류")
         continue
@@ -37,17 +55,17 @@ for file in files:  # 한 figure에 파일 00~14까지 색상 다르게 해서 �
     color = np.random.rand(3,)
     
     ax.scatter(gaze_x, gaze_y, color=color, label=file)
-    for j in range(len(gaze_x)):
-        ax.text(gaze_x[j], gaze_y[j], f'{j}', fontsize=8, ha='right')
     
     ax.set_title(file)
     ax.set_xlabel("gaze_x")
     ax.set_ylabel("gaze_y")
     ax.grid(True)
     
-    i += 1  # 인덱스 증가
+    ax.set_xlim(global_min_x, global_max_x)
+    ax.set_ylim(global_min_y, global_max_y)
+    
+    i += 1  
 
-plt.tight_layout(rect=[0, 0, 1, 0.96])
+plt.tight_layout(rect=[0, 0, 1, 0.96], pad=3.0)  
 
 plt.show()
-
