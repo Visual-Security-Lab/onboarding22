@@ -16,6 +16,8 @@ def load_data(files):
     
     return gaze_x, gaze_y
 
+fig, axs = plt.subplots(3, 5, figsize=(15, 15))  # 3x5 그리드의 서브플롯
+fig.suptitle('Landmark Visualization for Each Frame')
 
 files = [f'{i:02d}.json' for i in range(15)]  
 
@@ -25,13 +27,24 @@ for file in files: #한 figure에 파일 00~14까지 색상 다르개 해서 축
     if not os.path.exists(file):
         print(f"{file} 불러오기 오류")
         continue
+    i=0
+    row = i // 5
+    col = i % 3
+    ax = axs[row, col]
     
     gaze_x, gaze_y = load_data([file])
     gaze_x = np.array(gaze_x)
     gaze_y = np.array(gaze_y)
     color = np.random.rand(3,)
     
-    plt.scatter(gaze_x, gaze_y, color=color, label=file)
+    ax.scatter(gaze_x, gaze_y, color=color, label=file)
+    for j in range(len(gaze_x)):
+        ax.text(gaze_x[j], gaze_y[j], f'{j}', fontsize=8, ha='right')
+    
+    ax.set_title(f"Frame {frame}")
+    ax.set_xlabel("gaze_x")
+    ax.set_ylabel("gaze_y")
+    ax.grid(True)
 
 plt.title('Gaze Coordinates')
 plt.xlabel('X Coordinate')
