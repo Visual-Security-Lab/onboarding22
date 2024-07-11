@@ -25,10 +25,10 @@ def find_global_range(files):
             continue
         
         lmk_x, lmk_y = load_data([file])
-        global_min_x = min(global_min_x, min(lmk_x))
-        global_max_x = max(global_max_x, max(lmk_x))
-        global_min_y = min(global_min_y, min(lmk_y))
-        global_max_y = max(global_max_y, max(lmk_y))
+        global_min_x = min( min(lmk_x))
+        global_max_x = max(max(lmk_x))
+        global_min_y = min(min(lmk_y))
+        global_max_y = max( max(lmk_y))
         
     return global_min_x, global_max_x, global_min_y, global_max_y
 
