@@ -19,7 +19,7 @@ def load_data(files):
 fig, axs = plt.subplots(3, 5, figsize=(15, 15))  # 3x5 그리드의 서브플롯
 fig.suptitle('Visualization for Each Frame')
 
-files = [f'{i:02d}.json' for i in range(15)]  
+
 
 
 for file in files: #한 figure에 파일 00~14까지 색상 다르개 해서 축 올림
@@ -27,6 +27,7 @@ for file in files: #한 figure에 파일 00~14까지 색상 다르개 해서 축
         print(f"{file} 불러오기 오류")
         continue
     i=0
+    files = [f'{i:02d}.json']  
     row = i // 5
     col = i % 3
     ax = axs[row, col]
