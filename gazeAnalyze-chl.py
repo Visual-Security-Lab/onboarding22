@@ -17,11 +17,10 @@ def load_data(files):
     return gaze_x, gaze_y
 
 fig, axs = plt.subplots(3, 5, figsize=(15, 15))  # 3x5 그리드의 서브플롯
-fig.suptitle('Landmark Visualization for Each Frame')
+fig.suptitle('Visualization for Each Frame')
 
 files = [f'{i:02d}.json' for i in range(15)]  
 
-plt.figure(figsize=(10, 5))
 
 for file in files: #한 figure에 파일 00~14까지 색상 다르개 해서 축 올림
     if not os.path.exists(file):
@@ -41,15 +40,16 @@ for file in files: #한 figure에 파일 00~14까지 색상 다르개 해서 축
     for j in range(len(gaze_x)):
         ax.text(gaze_x[j], gaze_y[j], f'{j}', fontsize=8, ha='right')
     
-    ax.set_title(f"Frame {frame}")
+    ax.set_title(\d i".json")
     ax.set_xlabel("gaze_x")
     ax.set_ylabel("gaze_y")
     ax.grid(True)
+    i++
 
 plt.title('Gaze Coordinates')
-plt.xlabel('X Coordinate')
-plt.ylabel('Y Coordinate')
-plt.legend()
-plt.grid(True)
+#plt.xlabel('X Coordinate')
+#plt.ylabel('Y Coordinate')
+#plt.legend()
+plt.tight_layout(rect=[0, 0, 1, 0.96])
 
 plt.show()
